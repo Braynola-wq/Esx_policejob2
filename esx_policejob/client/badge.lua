@@ -1,37 +1,30 @@
-
 local plateModel = "prop_fib_badge"
 local plateModel2 = "prop_fib_badge"
 local animDict = "missfbi_s4mop"
 local animName = "swipe_card"
 
-
-
 RegisterCommand('pdbadge', function()
     startAnim()
 end)
 
-
 function startAnim()
-
 	local playerPed = PlayerPedId()
-
 	local jobname = ESX.PlayerData.job.name
 
 	if(jobname ~= "offpolice" and jobname ~= 'police' and jobname ~= 'ambulance' and jobname ~= 'offambulance' and jobname ~= "lawyer") then
-		ESX.ShowNotification("רק שוטרים/מדא/עורכי דין יכולים להשתמש בפקודה הזאת")
+		TriggerEvent('br_notify:show', 'error', 'Police Job', "רק שוטרים/מדא/עורכי דין יכולים להשתמש בפקודה הזאת", 5000, false)
 		return
 	end
 
-
 	if(IsEntityDead(playerPed) or LocalPlayer.state.down) then
-		ESX.ShowNotification("אתה מת ולא יכול להציג תעודה")
+		TriggerEvent('br_notify:show', 'error', 'Police Job', "אתה מת ולא יכול להציג תעודה", 5000, false)
 		return
 	end
 
     if(IsPedCuffed(playerPed)) then
         return
     end
-	
+
     RequestModel(GetHashKey(plateModel))
     while not HasModelLoaded(GetHashKey(plateModel)) do
         Wait(0)
@@ -81,8 +74,8 @@ function IdAnim()
 	if(IsEntityDead(playerPed) or LocalPlayer.state.down or IsPedInAnyVehicle(playerPed,false) or IsPedCuffed(playerPed)) then
 		return
 	end
-    
-	
+
+
     RequestModel(GetHashKey(plateModel))
     while not HasModelLoaded(GetHashKey(plateModel)) do
         Wait(0)
